@@ -1,0 +1,15 @@
+table {
+	border: 5px ridge #f0f0f0;
+	font-size: 18px;
+	font-family: Verdana;
+	font-weight: bold;
+}
+
+table td {
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	border: 3px outset #c0c0c0;
+	background-color:  #c0c0c0;
+	text-align: center;
+}
