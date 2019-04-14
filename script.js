@@ -1,6 +1,5 @@
 bombsCells = [];
 gameField = [];
-
 colors = [
 			"blue",
 			"green",
@@ -12,6 +11,7 @@ colors = [
 			"gray",		
 			];
 
+gameStopped = false;
 
 
 for (var i = 0; i < 480; i++) {
@@ -24,9 +24,8 @@ window.onload = function() {
 		
 	for (var i = 0; i < cells.length; i++) {
 		   	cells[i].addEventListener("click", function (event){
-				event.preventDefault();				
-				event.currentTarget.style.border = "1px solid #000";
-
+				event.preventDefault();
+				
 				makeMove(event);
 				
 		});
@@ -39,13 +38,19 @@ window.onload = function() {
 
 function makeMove(event){
 
-	
+	if (gameStopped) return;
+
 	var selectedPosition = event.currentTarget.position;
 	var offsets;
 	var currentCell;
 	var nextCell = [];
 
 	event.currentTarget.style.border = "1px solid #000";
+
+	if ((gameField[selectedPosition]) == "b") {
+		
+		makeFailure(selectedPosition);
+	}
 
 	nextCell.push(selectedPosition);
 
@@ -74,7 +79,17 @@ function makeMove(event){
 	markOpened(tmpArray);	
 }
 
-
+function makeFailure(selectedPosition){
+	gameStopped = true;
+	cells = document.getElementsByTagName("td");
+	cells[selectedPosition].style.backgroundColor = "red";
+	for (var i=0; i<gameField.length; i++){
+		if (gameField[i] == "b"){
+			cells[i].innerHTML = "&#216;";
+			cells[i].style.border = "1px solid #000";			
+		}
+	}
+}
 
 function markOpened(array) {
 	cells = document.getElementsByTagName("td");
@@ -85,9 +100,9 @@ function markOpened(array) {
 				cells[i].innerHTML = gameField[i];
 				cells[i].style.color = colors[gameField[i] - 1];
 			}
-			if (gameField[i] == "b") {
-			 	cells[i].innerHTML = "&#216;";
-			}
+			// if (gameField[i] == "b") {
+			//  	cells[i].innerHTML = "&#216;";
+			// }
 		}
 
 	}
